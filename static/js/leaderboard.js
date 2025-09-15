@@ -438,7 +438,45 @@ function populateLeaderboard(){
        let currentSortColumn = -1;
       let sortDirection = 1; // 1 = ascending, -1 = descending
 
+// Gains Leaderboard
 
+          gainsdata = JSON.parse(document.getElementById("gains").textContent);
+          table = document.getElementById("GainsTable")
+
+            for (let i = 0; i < gainsdata.length; i++){
+              newRow = table.insertRow(-1);
+        
+              position = newRow.insertCell(0)
+              rsnCell = newRow.insertCell(1)
+              firstPlacesCell = newRow.insertCell(2)
+              secondPlacesCell = newRow.insertCell(3)
+              thirdPlacesCell = newRow.insertCell(4)
+              points = newRow.insertCell(5)
+
+              position.textContent = i+1
+              position.style.fontWeight = "bold";
+              rsnCell.style.fontWeight = "bold";
+
+              rsnCell.textContent = gainsdata[i].rsn
+              firstPlacesCell.textContent = gainsdata[i].firstplaces
+              secondPlacesCell.textContent = gainsdata[i].secondplaces
+              thirdPlacesCell.textContent = gainsdata[i].thirdplaces
+              points.textContent = (gainsdata[i].firstplaces*3)+(gainsdata[i].secondplaces*2)+(gainsdata[i].thirdplaces)
+
+
+              if(i==0){
+                rsnCell.style.color = "#FFD700"
+              }
+              if(i==1){
+                rsnCell.style.color = "#C0C0C0"
+              }
+              if(i==2){
+                rsnCell.style.color = "#CD7F32"
+              }
+  
+       }
+
+  
 
 
 

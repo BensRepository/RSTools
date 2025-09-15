@@ -74,6 +74,7 @@
   {{ previous_skill|json_script:"previous_skill"}}
   {{ previous_boss|json_script:"previous_boss"}}
   {{ raids|json_script:"raids"}}
+    {{ gains|json_script:"gains"}}
   <main class="main">
 
     <!-- Background photo -->
@@ -244,7 +245,46 @@
                       <th> <img  src="{% static 'images/rstoolsimg/loot-simulator-icons/raids/c.png'%}" alt="Generic placeholder image" style="width: 65%;"></th>
                       <th> <img  src="{% static 'images/rstoolsimg/loot-simulator-icons/raids/t.png'%}" alt="Generic placeholder image" style="width: 65%;"></th>
                      <th> <img  src="{% static 'images/rstoolsimg/loot-simulator-icons/raids/b.png'%}" alt="Generic placeholder image" style="width: 65%;"></th>
-                <th>Total Completions</th>
+                <th><h4 style="color: white;">Total Completions</h4></th>
+              </tr>
+            </thead>
+            <tbody id="raidsTableBody">
+
+            </tbody>
+  </table>
+
+      </div>
+
+
+    </section>
+
+
+      <section>
+
+        <div class="row"data-aos="fade-up" data-aos-delay="100" style="text-align: center">
+      <h1 style="font-size: 50px;font-weight: bold;padding-bottom: 10px;color: rgb(0, 0, 0);">🏆2026 Gains of the Year Leaderboard🏆</h1>
+
+      </div>
+ 
+      <section class="bg2"data-aos="fade-in">
+      <div class="container marketing justify-content-center text-center ">
+
+        <!-- COX Leaderboard  -->
+        <div class="row"data-aos="fade-up" data-aos-delay="100">
+        
+            <div  data-aos="fade-up" data-aos-delay="300" class="table-container">
+
+       
+              <table id="GainsTable" class="responsive-table">
+
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                      <th> <h4 style="color: white;">1st Places</h4></th>
+                       <th> <h4 style="color: white;">2nd Places</h4></th>
+                      <th> <h4 style="color: white;">3rd Places</h4></th>
+                <th><h4 style="color: white;">Total Points</h4></th>
               </tr>
             </thead>
             <tbody id="raidsTableBody">
@@ -256,26 +296,6 @@
 
 
     </section><!-- /About Section -->
-
-
-   <section data-aos="fade-in">
-    <div class="row"data-aos="fade-up" data-aos-delay="100" style="text-align: center">
-      <h1 style="font-size: 50px;font-weight: bold;padding-bottom: 10px;color: rgb(0, 0, 0);">🏆2026 Gains of the Year Leaderboard🏆</h1>
-      </div>
-   </section>
-      <section class="bg2"data-aos="fade-in">
-      <div class="container marketing justify-content-center text-center">
-
-        <!-- Three columns of text below the carousel -->
-        <div class="row"data-aos="fade-up" data-aos-delay="100">
-        
-    
-            <h2 style="color: white;font-weight: bold;">Coming soon...</h2>
-
-      </div>
-
-    </section><!-- /About Section -->
-
 
 
     <script src="{% static 'js/leaderboard.js' %}"></script>

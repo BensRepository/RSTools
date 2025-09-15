@@ -22,7 +22,14 @@ class Weeklys(models.Model):
 
 class GainsLeaderboard(models.Model):
     rsn = models.CharField(max_length=20,primary_key=True)
-    points = models.IntegerField()
+    firstplaces = models.IntegerField(default=0)
+    secondplaces = models.IntegerField(default=0)
+    thirdplaces = models.IntegerField(default=0)
+    @property
+    def points(self):
+        points = self.firstplaces*3 + self.secondplaces*2 + self.thirdplaces *1
+        return points
+
     date_modified = models.DateTimeField(auto_now=True)
 
 class RaidsLeaderboard(models.Model):

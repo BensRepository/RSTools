@@ -179,7 +179,7 @@ class WebAppViewset(viewsets.ModelViewSet):
                 if(addDB == True):
                     print("Add to DB Main Leaderboard")
                     newEntry = RSLeaderboardEntry()
-                    newEntry.rsn = rsn.lower()
+                    newEntry.rsn = rsn 
                     if data[minigameNames.index(weekly.boss)+26] == "n-1,-1":
                         newEntry.weeklybosskillsstart = 0
                         newEntry.weeklybosskillscurrent = 0
@@ -262,6 +262,7 @@ class WebAppViewset(viewsets.ModelViewSet):
                     else:
                         tobStart += int(data[minigameNames.index(tobh)+26].split(',')[1])
                         tobCurrent += int(data[minigameNames.index(tobh)+26].split(',')[1])
+
     
                     newEntry.toakcstart = toaStart
                     newEntry.toakccurrent = toaCurrent
@@ -274,6 +275,18 @@ class WebAppViewset(viewsets.ModelViewSet):
                     
                     newEntry.save()
                     print("created new entry raid leaderboard")
+                    try:
+                        gainsLeaderboardEntry = GainsLeaderboard.objects.create(
+                            rsn = rsn,
+                            firstplaces = 0,
+                            secondplaces = 0,
+                            thirdplaces = 0
+                        )
+   
+                        gainsLeaderboardEntry.save
+                        print("Added "+rsn+" to Gains Leaderboard")
+                    except:
+                        print("Failed to add to Gains Leaderboard")
 
                 else:
                     try:
@@ -383,6 +396,7 @@ class WebAppViewset(viewsets.ModelViewSet):
         context['previous_boss'] = weeklyPrevious.boss
 
         print(weeklyPrevious.skill)
+
         for x in RSLeaderboardEntry.objects.all().values():
             leaderboard_data.append(x)
         
@@ -390,8 +404,16 @@ class WebAppViewset(viewsets.ModelViewSet):
 
         for x in RaidsLeaderboard.objects.all().values():
             raids_leaderboard_data.append(x)
-
         context['raids'] = raids_leaderboard_data
+        
+        gains_leaderboard = []
+        for x in GainsLeaderboard.objects.all().values():
+            gains_leaderboard.append(x)
+
+        context['gains'] = gains_leaderboard
+
+
+
         return render(request,'leaderboard.html',context)
     
     def change_weekly(self):
@@ -446,6 +468,14 @@ class WebAppViewset(viewsets.ModelViewSet):
                     print("set_previous successful" + object.rsn)
         except:
             print("set_previous failed")
+
+        seen = set()
+        for obj in RSLeaderboardEntry.objects.order_by('id'):
+            identifier = (obj.event, obj.rsn.lower())
+            if identifier in seen:
+                obj.delete()
+            else:
+                seen.add(identifier)
        
 
     def periodically_update(self):
