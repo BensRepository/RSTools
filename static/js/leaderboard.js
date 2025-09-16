@@ -406,7 +406,7 @@ function populateLeaderboard(){
            for (let i = 0; i < sorted.length; i++){
               newRow = table.insertRow(-1);
         
-
+              
               Position = newRow.insertCell(0)
               RSNCell = newRow.insertCell(1)
               COXCell = newRow.insertCell(2)
@@ -445,7 +445,7 @@ function populateLeaderboard(){
 
             for (let i = 0; i < gainsdata.length; i++){
               newRow = table.insertRow(-1);
-        
+              newRow.className = "td2";  
               position = newRow.insertCell(0)
               rsnCell = newRow.insertCell(1)
               firstPlacesCell = newRow.insertCell(2)
