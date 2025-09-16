@@ -618,6 +618,98 @@ class WebAppViewset(viewsets.ModelViewSet):
         except:
             print("Didn't save model")
             pass
+
+
+    def addPoints(self):
+        results =  []
+        LeaderboardObjects = RSLeaderboardEntry.objects.all().filter(event = "current")
+        try:
+            for object in LeaderboardObjects:
+               results.append([object.rsn,(object.weeklybosskillscurrent - object.weeklybosskillsstart),(object.weeklyskillxpcurrent - object.weeklyskillxpstart),(object.totalxpcurrent - object.totalxpstart)])
+            print("created results")
+        except Exception as e:
+                    print(e)
+                    print("Failed to get leardboard data")
+  
+        sorted_data_boss = sorted(results, key=lambda x: x[1], reverse=True)
+        sorted_data_skill = sorted(results, key=lambda x: x[2], reverse=True)
+        sorted_data_total_xp = sorted(results, key=lambda x: x[3], reverse=True)
+
+        #Boss Points
+     
+        pointsLeaderboardBossFirstPlace = GainsLeaderboard.objects.all().filter(rsn = sorted_data_boss[0][0]).first()
+        print(sorted_data_boss)
+
+        if(sorted_data_boss[0][1] ==0):
+            print("no one got a KC for Bossing")
+        
+        else:
+            pointsLeaderboardBossFirstPlace.firstplaces +=1
+            pointsLeaderboardBossFirstPlace.save()
+        
+
+
+        pointsLeaderboardBossSecondPlace = GainsLeaderboard.objects.filter(rsn = sorted_data_boss[1][0]).first()
+   
+        if(sorted_data_boss[1][1] ==0):
+            print("No one came second boss")
+        else:
+            pointsLeaderboardBossSecondPlace.secondplaces +=1
+            pointsLeaderboardBossSecondPlace.save()
+
+        pointsLeaderboardBossThirdPlace = GainsLeaderboard.objects.filter(rsn = sorted_data_boss[2][0]).first()
+    
+        if(sorted_data_boss[2][1] ==0):
+            print("No one came third Boss")
+        else:
+            pointsLeaderboardBossThirdPlace.thirdplaces += 1
+            pointsLeaderboardBossThirdPlace.save()
+
+        #Skill Points
+
+        pointsLeaderboardSkillFirstPlace = GainsLeaderboard.objects.filter(rsn = sorted_data_skill[0][0]).first()
+        if(sorted_data_skill[0][2] ==0):
+            print("no one got XP for Skilling")
+        else:
+            pointsLeaderboardSkillFirstPlace.firstplaces += 1
+            pointsLeaderboardSkillFirstPlace.save()
+
+        pointsLeaderboardSkillSecondPlace = GainsLeaderboard.objects.filter(rsn = sorted_data_skill[1][0]).first()
+        if(sorted_data_skill[1][2] ==0):
+            print("No one came 2nd Skill")
+        else:
+            pointsLeaderboardSkillSecondPlace.secondplaces += 1
+            pointsLeaderboardSkillSecondPlace.save()
+
+        pointsLeaderboardSkillThirdPlace = GainsLeaderboard.objects.filter(rsn = sorted_data_skill[2][0]).first()
+        if(sorted_data_skill[2][2] ==0):
+            print("No one came 3rd Skill")
+        else:
+            pointsLeaderboardSkillThirdPlace.thirdplaces += 1
+            pointsLeaderboardSkillThirdPlace.save()
+        #Total XP
+
+        pointsLeaderboardTotalXPFirstPlace = GainsLeaderboard.objects.filter(rsn = sorted_data_total_xp[0][0]).first()
+        if(sorted_data_total_xp[0][3] ==0):
+            print("No one came 3rd Skill")
+        else:
+            pointsLeaderboardTotalXPFirstPlace.firstplaces += 1
+            pointsLeaderboardTotalXPFirstPlace.save()
+
+        pointsLeaderboardTotalXPSecondPlace = GainsLeaderboard.objects.filter(rsn = sorted_data_total_xp[1][0]).first()
+        if(sorted_data_total_xp[1][3] ==0):
+            print("No one got XP")
+        else:
+            pointsLeaderboardTotalXPSecondPlace.secondplaces += 1
+            pointsLeaderboardTotalXPSecondPlace.save()
+
+        pointsLeaderboardTotalXPThirdPlace = GainsLeaderboard.objects.filter(rsn = sorted_data_total_xp[2][0]).first()
+        if(sorted_data_total_xp[2][3] ==0):
+            print("No one came third total xp")
+        else:
+            pointsLeaderboardTotalXPThirdPlace.thirdplaces += 1
+            pointsLeaderboardTotalXPThirdPlace.save()
+
     def load_statlookup(request):
 
             return render(request,'statlookup.html')

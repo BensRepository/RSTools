@@ -93,7 +93,17 @@
       border: 1px solid rgba(255, 255, 255, 0.3); /* Optional: frosted-glass border */
     }
 
+    .td2 {
+      border: none;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      backdrop-filter: blur(3px); /* Blur strength */
+      -webkit-backdrop-filter: blur(3px); /* For Safari */
+      background-color: rgba(253, 106, 106, 0.2); /* Optional: semi-transparent background */
 
+      border: 1px solid rgba(255, 255, 255, 0.3); /* Optional: frosted-glass border */
+    }
        th {
 
      color: white;
