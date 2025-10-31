@@ -10,6 +10,7 @@ from .models import RSLeaderboardEntry
 from .models import Weeklys
 from .models import RaidsLeaderboard
 from .models import GainsLeaderboard
+from .models import PollResults
 from rest_framework import viewsets
 import glob
 from WebApp.settings import STATIC_URL
@@ -17,7 +18,7 @@ from WebApp.settings import STATIC_URL
 
 
 minigameNames = [
- 
+    "test",
     "Bounty Hunter - Hunter",
     "Bounty Hunter - Rogue",
     "Bounty Hunter (Legacy) - Hunter",
@@ -418,38 +419,27 @@ class WebAppViewset(viewsets.ModelViewSet):
     
     def change_weekly(self):
         try:
-            weeklyObjects = Weeklys.objects.all()
-            current = weeklyObjects.get(id=1)
-            previous = weeklyObjects.get(id=2)
+            # Fetch weekly objects
+            current = Weeklys.objects.get(id=1)
+            previous = Weeklys.objects.get(id=2)
 
+            # First, store current values in previous
             previous.skill = current.skill
             previous.boss = current.boss
             previous.save()
-        except:
-            print("failed to set previous boss in change weekly")
-            pass
 
-        weeklyObjects = Weeklys.objects.all()
-        weekly = weeklyObjects.get(id=1)
-        try:
-            boss_index = random.randint(15,len(minigameNames))
-            skill_index = random.randint(1,len(SkillNames))
-            weekly.boss = minigameNames[boss_index]
-            weekly.skill = SkillNames[skill_index]
-            print(weekly.boss +" New Boss")
-            print(weekly.skill+" New Skill")                        
-            while((weekly.boss == current.boss) or (current.skill == weekly.skill) or (weekly.boss =="reroll")):
-                print("Duplicate or Reroll")
-                boss_index = random.randint(17,len(minigameNames))
-                skill_index = random.randint(1,len(SkillNames))
-                weekly.boss = minigameNames[boss_index]
-                weekly.skill = SkillNames[skill_index]
+            # Now fetch poll results
+            votedOption = PollResults.objects.get(id=1)
 
-            weekly.save(update_fields=['boss','skill'])
-            print("saves model")
-        except:
-            print("change weekly failed")
-            pass
+            # Update current with new poll results
+            current.boss = votedOption.boss
+            current.skill = votedOption.skill
+            current.save(update_fields=['boss','skill'])
+
+            print("Weekly updated successfully")
+        except Exception as e:
+            print(f"change_weekly failed: {e}")
+
 
 
     def set_previous(self):
@@ -718,6 +708,7 @@ class WebAppViewset(viewsets.ModelViewSet):
         name = request.POST.get('text')
         name2 = request.POST.get('text2')
         compare = request.POST.get('compare')
+    
         type = request.POST.get('type')
         api_request2 = ""
         print(type)
@@ -781,6 +772,7 @@ class WebAppViewset(viewsets.ModelViewSet):
                 print("no data returned")
                 type = "All"
                 return render(request,'statlookup.html')
+            
             if(compare == "True"):
                 try:
                     url = "https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" +name2
@@ -788,11 +780,12 @@ class WebAppViewset(viewsets.ModelViewSet):
                     api_request2.raise_for_status() 
                     api_request2 = api_request2.content
                     print(str(api_request2.content)) 
+                    print("test")
                 except:
-                    print("no data returned")
+                    print("no data returned standard account")
                     type = "All"
 
-            
+
 
         context = {"player_data":str(api_request.content),"rsn":name,"type":type, "compare":compare,"player_data_compare":str(api_request2),"rsncompare":name2}
         return render(request,'statlookup_results.html',context=context)

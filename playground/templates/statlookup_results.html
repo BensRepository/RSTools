@@ -110,11 +110,7 @@
           data = JSON.parse(document.getElementById('player_data').textContent);
           compare = JSON.parse(document.getElementById('compare').textContent);
           
-          if (data.split("\\").length > getMinigameNames() +27) {
-            alert("Runescape has been updated! Please try using this feature again later.")
-            history.back()
-          } else {
-            if (compare != "True") {
+          if (compare != "True") {
             generateTableSkills(data);
             accountTypeSelection();
             generateTableMingames(data);
@@ -125,7 +121,7 @@
             CompareAccountsMinigames()
          
           }
-          }
+       
 
 
 
