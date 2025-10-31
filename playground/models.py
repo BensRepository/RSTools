@@ -20,6 +20,13 @@ class Weeklys(models.Model):
     skill = models.CharField(max_length=45)
     boss = models.CharField(max_length=45)
 
+
+class PollResults(models.Model):
+    id = models.AutoField(primary_key=True)
+    skill = models.CharField(max_length=45)
+    boss = models.CharField(max_length=45)
+
+
 class GainsLeaderboard(models.Model):
     rsn = models.CharField(max_length=20,primary_key=True)
     firstplaces = models.IntegerField(default=0)

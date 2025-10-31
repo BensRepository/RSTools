@@ -135,7 +135,7 @@ class PlayerData {
   }
 
   const minigameNames = [
-    
+      "test",
       "Bounty Hunter - Hunter",
       "Bounty Hunter - Rogue",
       "Bounty Hunter (Legacy) - Hunter",

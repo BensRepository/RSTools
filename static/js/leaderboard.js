@@ -442,39 +442,44 @@ function populateLeaderboard(){
 
           gainsdata = JSON.parse(document.getElementById("gains").textContent);
           table = document.getElementById("GainsTable")
+          results = []
+          for (let i = 0; i < gainsdata.length; i++){
+            points = (gainsdata[i].firstplaces*3)+(gainsdata[i].secondplaces*2)+(gainsdata[i].thirdplaces)
+            results.push([gainsdata[i].rsn,gainsdata[i].firstplaces,gainsdata[i].secondplaces,gainsdata[i].thirdplaces,points])
+          }
+          sorted = results.sort((a, b) => b[4] - a[4]);
+          for (let i = 0; i < sorted.length; i++){
+            newRow = table.insertRow(-1);
+            newRow.className = "td2";  
+            position = newRow.insertCell(0)
+            rsnCell = newRow.insertCell(1)
+            firstPlacesCell = newRow.insertCell(2)
+            secondPlacesCell = newRow.insertCell(3)
+            thirdPlacesCell = newRow.insertCell(4)
+            points = newRow.insertCell(5)
 
-            for (let i = 0; i < gainsdata.length; i++){
-              newRow = table.insertRow(-1);
-              newRow.className = "td2";  
-              position = newRow.insertCell(0)
-              rsnCell = newRow.insertCell(1)
-              firstPlacesCell = newRow.insertCell(2)
-              secondPlacesCell = newRow.insertCell(3)
-              thirdPlacesCell = newRow.insertCell(4)
-              points = newRow.insertCell(5)
+            position.textContent = i+1
+            position.style.fontWeight = "bold";
+            rsnCell.style.fontWeight = "bold";
 
-              position.textContent = i+1
-              position.style.fontWeight = "bold";
-              rsnCell.style.fontWeight = "bold";
-
-              rsnCell.textContent = gainsdata[i].rsn
-              firstPlacesCell.textContent = gainsdata[i].firstplaces
-              secondPlacesCell.textContent = gainsdata[i].secondplaces
-              thirdPlacesCell.textContent = gainsdata[i].thirdplaces
-              points.textContent = (gainsdata[i].firstplaces*3)+(gainsdata[i].secondplaces*2)+(gainsdata[i].thirdplaces)
+            rsnCell.textContent = sorted[i][0]
+            firstPlacesCell.textContent = sorted[i][1]
+            secondPlacesCell.textContent = sorted[i][2]
+            thirdPlacesCell.textContent = sorted[i][3]
+            points.textContent = sorted[i][4]
 
 
-              if(i==0){
-                rsnCell.style.color = "#FFD700"
-              }
-              if(i==1){
-                rsnCell.style.color = "#C0C0C0"
-              }
-              if(i==2){
-                rsnCell.style.color = "#CD7F32"
-              }
-  
-       }
+            if(i==0){
+              rsnCell.style.color = "#FFD700"
+            }
+            if(i==1){
+              rsnCell.style.color = "#C0C0C0"
+            }
+            if(i==2){
+              rsnCell.style.color = "#CD7F32"
+            }
+
+      }
 
   
 
